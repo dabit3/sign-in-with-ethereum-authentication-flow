@@ -5,11 +5,8 @@ export default function auth(req, res){
   if (req.method === 'POST') {
     let authenticated = false;
     const {address, signature} = req.query;
-    console.log('address: ', address)
     const decodedAddress = ethers.utils.verifyMessage(address, signature)
-    console.log('decodedAddress: ', decodedAddress)
     if(address.toLowerCase() === decodedAddress.toLowerCase()) {
-      console.log('authenticated: ', authenticated)
       authenticated = true
       const user = User.users.find(u => u.address = address)
       if (!user) {
@@ -17,7 +14,6 @@ export default function auth(req, res){
           address
         })
       }
-      console.log('users: ', User.users)
     }
     res.status(200).json({authenticated})
   } else {
