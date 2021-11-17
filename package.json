@@ -1,0 +1,23 @@
+{
+  "name": "sign-in-with-ethereum",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@toruslabs/torus-embed": "^1.15.0",
+    "@walletconnect/web3-provider": "^1.6.6",
+    "ethers": "^5.5.1",
+    "next": "12.0.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "web3modal": "^1.9.4"
+  },
+  "devDependencies": {
+    "eslint": "7",
+    "eslint-config-next": "12.0.4"
+  }
+}
