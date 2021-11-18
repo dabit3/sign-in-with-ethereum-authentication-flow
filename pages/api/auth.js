@@ -1,11 +1,13 @@
 import { ethers } from "ethers";
 import User from "../../utils/users";
 
+const base_string = 'sign-in-with-ethereum'
+
 export default function auth(req, res){
   if (req.method === 'POST') {
     let authenticated = false;
     const {address, signature} = req.query;
-    const decodedAddress = ethers.utils.verifyMessage(address, signature)
+    const decodedAddress = ethers.utils.verifyMessage(base_string, signature)
     if(address.toLowerCase() === decodedAddress.toLowerCase()) {
       authenticated = true
       const user = User.users.find(u => u.address = address)
@@ -19,7 +21,7 @@ export default function auth(req, res){
   } else {
     let authenticated = false
     const {address, signature} = req.query;
-    const decodedAddress = ethers.utils.verifyMessage(address, signature)
+    const decodedAddress = ethers.utils.verifyMessage(base_string, signature)
     if(address.toLowerCase() === decodedAddress.toLowerCase()) {
         const user = User.users.find(u => u.address = address)
         if (user) {

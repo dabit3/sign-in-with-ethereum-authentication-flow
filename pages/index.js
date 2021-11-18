@@ -3,6 +3,8 @@ import { ethers } from 'ethers'
 import Web3Modal from "web3modal"
 import WalletConnectProvider from "@walletconnect/web3-provider"
 
+const base_string = 'sign-in-with-ethereum'
+
 const ConnectWallet = () => {
     const [account, setAccount] = useState('')
     const [connection, setConnection] = useState(false)
@@ -43,7 +45,7 @@ const ConnectWallet = () => {
       setError('')
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner()
-      const signature = await signer.signMessage(account)
+      const signature = await signer.signMessage(base_string)
       const response = await fetch(`/api/auth?address=${account}&signature=${signature}`, {
         method: 'POST'
       })
@@ -54,7 +56,7 @@ const ConnectWallet = () => {
     async function signIn() {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner()
-      const signature = await signer.signMessage(account)
+      const signature = await signer.signMessage(base_string)
       const response = await fetch(`/api/auth?address=${account}&signature=${signature}`)
       const data = await response.json()
       setLoggedIn(data.authenticated)
