@@ -1,4 +1,4 @@
-# Sign ing with Ethereum authentication flow
+# Sign in with Ethereum authentication flow
 
 A basic example of how to create an authentication flow using Next.js, public key encryption, and an Ethereum or EVM compatible wallet that works on both desktop and mobile sites.
 
