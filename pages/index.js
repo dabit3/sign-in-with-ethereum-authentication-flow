@@ -84,7 +84,7 @@ const container = {
 }
 
 const button = {
-  width: '400px',
+  width: '100%',
   margin: '5px',
   padding: '20px',
   border: 'none',
