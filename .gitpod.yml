@@ -1,4 +1,4 @@
 tasks:
   - name: Install dependencies, run app
     init: yarn
-    command: npm run dev
+    command: npm run build && npm start
