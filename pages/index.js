@@ -30,7 +30,6 @@ const ConnectWallet = () => {
 
     async function connect() {
       const web3Modal = await getWeb3Modal()
-      web3Modal.clearCachedProvider()
       const connection = await web3Modal.connect()
       const provider = new ethers.providers.Web3Provider(connection)
       const accounts = await provider.listAccounts()
@@ -39,19 +38,14 @@ const ConnectWallet = () => {
     }
 
     async function signIn() {
-      const authData = await fetch(`/api/auth?address=${account}`)
+      const authData = await fetch(`/api/authenticate?address=${account}`)
       const user = await authData.json()
       const provider = new ethers.providers.Web3Provider(connection)
       const signer = provider.getSigner()
       const signature = await signer.signMessage(user.nonce.toString())
-      const response = await fetch(`/api/verify?address=${account}&nonce=${user.nonce}&signature=${signature}`)
+      const response = await fetch(`/api/verify?address=${account}&signature=${signature}`)
       const data = await response.json()
-      console.log('data: ', data)
       setLoggedIn(data.authenticated)
-    }
-
-    async function signOut() {
-      setLoggedIn(false)
     }
 
     return(
@@ -65,14 +59,7 @@ const ConnectWallet = () => {
             </div>
           )}
           {
-            loggedIn && (
-              (
-                <>
-                  <h1>Welcome, {account}</h1>
-                  <button style={button} onClick={signOut}>Sign Out</button>
-                </>
-              )
-            )
+            loggedIn && <h1>Welcome, {account}</h1>
           }
         </div>
     )
