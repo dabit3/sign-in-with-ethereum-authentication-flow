@@ -38,5 +38,5 @@ yarn
 2. Start the app
 
 ```sh
-npm run dev
+npm run build && npm start
 ```
