@@ -27,7 +27,7 @@ const ConnectWallet = () => {
             },
           },
         },
-      });
+      })
       return web3Modal
     }
 
@@ -35,7 +35,7 @@ const ConnectWallet = () => {
       const web3Modal = await getWeb3Modal()
       web3Modal.clearCachedProvider()
       const connection = await web3Modal.connect()
-      const provider = new ethers.providers.Web3Provider(connection);
+      const provider = new ethers.providers.Web3Provider(connection)
       const accounts = await provider.listAccounts()
       setConnection(connection)
       setAccount(accounts[0])
@@ -43,10 +43,10 @@ const ConnectWallet = () => {
 
     async function signUp() {
       setError('')
-      const provider = new ethers.providers.Web3Provider(connection);
+      const provider = new ethers.providers.Web3Provider(connection)
       const signer = provider.getSigner()
       const signature = await signer.signMessage(base_string)
-      const response = await fetch(`/api/auth?address=${account}&signature=${signature}`, {
+      const response = await fetch(`/api/auth?address=${account}&signature=${signature}&action=signup`, {
         method: 'POST'
       })
       const data = await response.json()
@@ -54,10 +54,10 @@ const ConnectWallet = () => {
     }
 
     async function signIn() {
-      const provider = new ethers.providers.Web3Provider(connection);
+      const provider = new ethers.providers.Web3Provider(connection)
       const signer = provider.getSigner()
       const signature = await signer.signMessage(base_string)
-      const response = await fetch(`/api/auth?address=${account}&signature=${signature}`)
+      const response = await fetch(`/api/auth?address=${account}&signature=${signature}&action=signin`)
       const data = await response.json()
       setLoggedIn(data.authenticated)
       if (!data.authenticated) {

@@ -1,12 +1,12 @@
-import { ethers } from "ethers";
-import User from "../../utils/users";
+import { ethers } from "ethers"
+import User from "../../utils/users"
 
 const base_string = 'sign-in-with-ethereum'
 
-export default function auth(req, res){
-  if (req.method === 'POST') {
-    let authenticated = false;
-    const {address, signature} = req.query;
+export default function auth(req, res) {
+  const {address, signature, action} = req.query
+  if (action === 'signup') {
+    let authenticated = false
     const decodedAddress = ethers.utils.verifyMessage(base_string, signature)
     if(address.toLowerCase() === decodedAddress.toLowerCase()) {
       authenticated = true
@@ -20,7 +20,6 @@ export default function auth(req, res){
     res.status(200).json({authenticated})
   } else {
     let authenticated = false
-    const {address, signature} = req.query;
     const decodedAddress = ethers.utils.verifyMessage(base_string, signature)
     if(address.toLowerCase() === decodedAddress.toLowerCase()) {
         const user = User.users.find(u => u.address = address)
