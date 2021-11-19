@@ -2,3 +2,6 @@ tasks:
   - name: Install dependencies, run app
     init: yarn
     command: npm run build && npm start
+ports:
+  - port: 3000
+    onOpen: open-browser
