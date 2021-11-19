@@ -1,32 +1,18 @@
-import { ethers } from 'ethers'
-import User from '../../utils/users'
-
-const base_string = 'sign-in-with-ethereum'
+import { users } from '../../utils/users'
 
 export default function auth(req, res) {
-  const {address, signature, action} = req.query
-  if (action === 'signup') {
-    let authenticated = false
-    const decodedAddress = ethers.utils.verifyMessage(base_string, signature)
-    if(address.toLowerCase() === decodedAddress.toLowerCase()) {
-      authenticated = true
-      const user = User.users.find(u => u.address = address)
-      if (!user) {
-        User.addUser({
-          address
-        })
-      }
+  const {address} = req.query
+  let user = users[address]
+  if (!user) {
+    user = {
+      address,
+      nonce: Math.floor(Math.random() * 10000000)
     }
-    res.status(200).json({authenticated})
+    users[address] = user
   } else {
-    let authenticated = false
-    const decodedAddress = ethers.utils.verifyMessage(base_string, signature)
-    if(address.toLowerCase() === decodedAddress.toLowerCase()) {
-        const user = User.users.find(u => u.address = address)
-        if (user) {
-          authenticated = true
-        }        
-    }
-    res.status(200).json({ authenticated })
+    const nonce = Math.floor(Math.random() * 10000000)
+    user.nonce = nonce
+    users[address] = user
   }
+  res.status(200).json(user)  
 }

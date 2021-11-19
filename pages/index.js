@@ -3,13 +3,10 @@ import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 
-const base_string = 'sign-in-with-ethereum'
-
 const ConnectWallet = () => {
     const [account, setAccount] = useState('')
     const [connection, setConnection] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false)
-    const [error, setError] = useState('')
 
     async function getWeb3Modal() {
       let Torus = (await import('@toruslabs/torus-embed')).default
@@ -41,28 +38,16 @@ const ConnectWallet = () => {
       setAccount(accounts[0])
     }
 
-    async function signUp() {
-      setError('')
-      const provider = new ethers.providers.Web3Provider(connection)
-      const signer = provider.getSigner()
-      const signature = await signer.signMessage(base_string)
-      const response = await fetch(`/api/auth?address=${account}&signature=${signature}&action=signup`, {
-        method: 'POST'
-      })
-      const data = await response.json()
-      setLoggedIn(data.authenticated)
-    }
-
     async function signIn() {
+      const authData = await fetch(`/api/auth?address=${account}`)
+      const user = await authData.json()
       const provider = new ethers.providers.Web3Provider(connection)
       const signer = provider.getSigner()
-      const signature = await signer.signMessage(base_string)
-      const response = await fetch(`/api/auth?address=${account}&signature=${signature}&action=signin`)
+      const signature = await signer.signMessage(user.nonce.toString())
+      const response = await fetch(`/api/verify?address=${account}&nonce=${user.nonce}&signature=${signature}`)
       const data = await response.json()
+      console.log('data: ', data)
       setLoggedIn(data.authenticated)
-      if (!data.authenticated) {
-        setError('error... not authenticated')
-      }
     }
 
     async function signOut() {
@@ -74,12 +59,8 @@ const ConnectWallet = () => {
           {
             !connection && <button style={button} onClick={connect}> Connect Wallet</button>
           }
-          {
-            error && <h2>No account yet created. Please sign up!</h2>
-          }
           { connection && !loggedIn && (
             <div>
-              <button style={button} onClick={signUp}>Sign Up</button>
               <button style={button} onClick={signIn}>Sign In</button>
             </div>
           )}
