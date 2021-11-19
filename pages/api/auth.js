@@ -1,5 +1,5 @@
-import { ethers } from "ethers"
-import User from "../../utils/users"
+import { ethers } from 'ethers'
+import User from '../../utils/users'
 
 const base_string = 'sign-in-with-ethereum'
 

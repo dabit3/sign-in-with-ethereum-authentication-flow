@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ethers } from 'ethers'
-import Web3Modal from "web3modal"
-import WalletConnectProvider from "@walletconnect/web3-provider"
+import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 
 const base_string = 'sign-in-with-ethereum'
 
@@ -12,9 +12,9 @@ const ConnectWallet = () => {
     const [error, setError] = useState('')
 
     async function getWeb3Modal() {
-      let Torus = (await import("@toruslabs/torus-embed")).default
+      let Torus = (await import('@toruslabs/torus-embed')).default
       const web3Modal = new Web3Modal({
-        network: "mainnet",
+        network: 'mainnet',
         cacheProvider: false,
         providerOptions: {
           torus: {
@@ -23,7 +23,7 @@ const ConnectWallet = () => {
           walletconnect: {
             package: WalletConnectProvider,
             options: {
-              infuraId: "8cf3cad623da43f9a84ab5ac94230cf6"
+              infuraId: '8cf3cad623da43f9a84ab5ac94230cf6'
             },
           },
         },
